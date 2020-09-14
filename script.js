@@ -15,10 +15,11 @@ function formatQueryParams(params) {
 
 function getFoodResult(foodAddress, foodType) {
     const params = {
-        query: foodType + foodAddress,
+        query: foodAddress + foodType,
         type: 'restaurant',
         key: googleApiKey,
         radius: 32500,
+        opennow: 'true',
 
     };
 
@@ -34,12 +35,30 @@ function getFoodResult(foodAddress, foodType) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => console.log(responseJson))
+    .then(responseJson => generateFoodResult(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
 
+function generateFoodResult(responseJson) {
+    console.log(responseJson)
+    $('#food-results-list').empty();
+
+    // Gets random result 
+    const number = Math.floor(Math.random() * responseJson.results.length)
+    console.log(number);
+    console.log(responseJson.results[number].title);
+
+    $('#food-results-list').append(
+        `
+        <li>
+        <h3>${responseJson.results[number].name}</h3>
+        <p>Address: ${responseJson.results[number].formatted_address}</p>
+        </li>
+        `
+    )
+}
 
 //              ~~~~~~~UNOGS API~~~~~~~
 
@@ -81,6 +100,7 @@ function generateWatchResult(responseJson) {
     console.log(responseJson)
     $('#watch-results-list').empty();
 
+    // Gets random result 
     const number = Math.floor(Math.random() * responseJson.results.length)
     console.log(number);
     console.log(responseJson.results[number].title);
@@ -99,7 +119,7 @@ function generateWatchResult(responseJson) {
 //              ~~~~~~~~ OMDb API ~~~~~~~~
 
 function getWatchResultScore(title) {
-    
+
 }
 
 
