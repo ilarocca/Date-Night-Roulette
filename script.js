@@ -48,8 +48,6 @@ function generateFoodResult(responseJson) {
     // Gets random result 
     const number = Math.floor(Math.random() * responseJson.results.length)
     console.log(number);
-    console.log(responseJson.results[number].title);
-
     $('#food-results-list').append(
         `
         <li>
@@ -64,12 +62,13 @@ function generateFoodResult(responseJson) {
 
 const netflixBaseUrl = 'https://unogsng.p.rapidapi.com/search' 
 
-function getWatchResult(watchType, genreType) {
+function getWatchResultTotal(watchType, genreType) {
+
     const params = {
         genrelist: genreType,
         type: watchType,
         countrylist: "78",
-
+        limit: 1, 
     };
 
     const queryString = formatQueryParams(params);
@@ -78,6 +77,39 @@ function getWatchResult(watchType, genreType) {
     console.log(url)
 
     fetch(url, {
+        "method": "GET",
+	    "headers": {
+		"x-rapidapi-host": "unogsng.p.rapidapi.com",
+		"x-rapidapi-key": "84d0b0e8damsha28a1dfe56f630ep1fbfedjsn7b96ad0f0af9"
+	    }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
+    .then(responseJson => getWatchResult(url, responseJson))
+    .catch(err => {
+      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+    });
+}
+
+function getWatchResult(url, responseJson) {
+
+    console.log(responseJson.total);
+    //             ~~~ Get random number based on total ~~~
+    const offsetParam = Math.floor(Math.random() * responseJson.total)
+
+    console.log(offsetParam); 
+
+    const offsetString = 'offset=' + offsetParam
+
+    const newUrl = url + '&' + offsetString; 
+
+    console.log(newUrl)
+
+    fetch(newUrl, {
         "method": "GET",
 	    "headers": {
 		"x-rapidapi-host": "unogsng.p.rapidapi.com",
@@ -100,9 +132,6 @@ function generateWatchResult(responseJson) {
     console.log(responseJson)
     $('#watch-results-list').empty();
 
-    // Gets random result 
-    const number = Math.floor(Math.random() * responseJson.results.length)
-    console.log(number);
     console.log(responseJson.results[number].title);
 
     $('#watch-results-list').append(
@@ -139,8 +168,7 @@ function submitWatchForm() {
         event.preventDefault(); 
         const watchType = $('#js-watch-type').val(); 
         const genreType = $('#js-genre-type').val();
-        console.log(genreType);
-        getWatchResult(watchType, genreType);
+        getWatchResultTotal(watchType, genreType);
     });
 }
 
