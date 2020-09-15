@@ -10,15 +10,17 @@
     <link rel="stylesheet" href="main.css">
 </head> 
 <body>
+    <
     <h1>Date Night Roulette</h1>
 
  <div class="container">
 
     <div class="food-container">
         <form id="js-food-form">
-            <input type="text" name="address" id="js-address" placeholder="Enter Address" required>
+            <label for="address">Enter Location</label>
+            <input type="text" name="address" id="js-address" placeholder="New York, NY, e.g." required>
             <br>
-            <label for="max-results">Food Type</label>
+            <label for="food-type">Food Type</label>
             <input type="text" name="food-type" id="js-food-type" placeholder="pizza, american, e.g.">
             <button type="submit" id="js-food-submit">Find Food!</button>
         </form>
@@ -32,7 +34,7 @@
 
     <div class="watch-container">
         <form id="js-watch-form">
-            <input type="text" name="watch-type" id="js-watch-type" placeholder="Movie or Tv Show?" required>
+            <!-- <input type="text" name="watch-type" id="js-watch-type" placeholder="Movie or Tv Show?" required> -->
             <br>
             <!-- <label for="max-results">Genre</label>
             <input type="text" name="genre-type" id="js-genre-type" value="Anything"> -->
@@ -47,19 +49,22 @@
               <option value="7627">Cult</option>
               <option value="6839">Docs</option>
               <option value="5763">Dramas</option>
+              <option value="31851">Ganster</option>
               <option value="8711">Horror</option>
               <option value="7077">Indie</option>
               <option value="1701">Music</option>
               <option value="8883">Romantic</option>
               <option value="1492">Sci-Fi</option>
               <option value="4370">Sports</option>
+              <option value="11559">Stand-Up</option>
               <option value="8933">Thrillers</option>
               <option value="83">TV Shows</option>
+              <option value="60951">Teen TV Shows</option>
             </select>
             <button type="submit" id="js-watch-submit">Find Something to Watch!</button>
         </form>
 
-        <section id="watch-results" class="hidden">
+        <section id="watch-results">
             <h2></h2>
             <ul id="watch-results-list">
             </ul>
