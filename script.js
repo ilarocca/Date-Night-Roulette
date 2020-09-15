@@ -86,7 +86,7 @@ function formatQueryParams(params) {
 
 //              ~~~~~~~ POSITION STACK API ~~~~ 
 
-const positionBaseUrl = 'http://api.positionstack.com/v1/forward'
+const positionBaseUrl = 'https://api.positionstack.com/v1/forward'
 
 const positionApiKey = 'fbd169c06412183df559cef58ec22027'
 
