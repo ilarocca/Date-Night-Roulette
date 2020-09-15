@@ -86,9 +86,11 @@ function formatQueryParams(params) {
 
 //              ~~~~~~~ POSITION STACK API ~~~~ 
 
-const positionBaseUrl = 'https://api.positionstack.com/v1/forward'
+const positionBaseUrl = 'http://api.positionstack.com/v1/forward'
 
 const positionApiKey = 'fbd169c06412183df559cef58ec22027'
+
+const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 function getCoordinates(foodAddress, foodType) {
     const params = { 
@@ -104,7 +106,7 @@ function getCoordinates(foodAddress, foodType) {
 
     console.log(url);
 
-    fetch(url)
+    fetch(proxyurl + url)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -290,35 +292,37 @@ function generateWatchResult(responseJson) {
         </li>
         `
     )
+    console.log(getWatchResultScore(responseJson.results[0].title));
 }
 
 //              ~~~~~~~~ OMDb API ~~~~~~~~
 
-// function getWatchResultScore(title) {
-//     const resultBaseUrl = 'http://www.omdbapi.com/'
+function getWatchResultScore(title) {
+    const resultBaseUrl = 'https://www.omdbapi.com/'
+    const omdbApiKey = '85d8f04b'
+    const params = {
+        t: title,
+        apikey: omdbApiKey
+    }
 
-//     const params = {
-//         t: title
-//     }
+    const queryString = formatQueryParams(params);
+    const url = resultBaseUrl + '?' + queryString; 
 
-//     const queryString = formatQueryParams(params);
-//     const url = resultBaseUrl + '?' + queryString; 
+    console.log(url);
 
-//     console.log(url);
+    fetch(url)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
+    .then(responseJson => console.log(responseJson))
+    .catch(err => {
+      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+    });
 
-//     fetch(url)
-//     .then(response => {
-//       if (response.ok) {
-//         return response.json();
-//       }
-//       throw new Error(response.statusText);
-//     })
-//     .then(responseJson => console.log(responseJson))
-//     .catch(err => {
-//       $('#js-error-message').text(`Something went wrong: ${err.message}`);
-//     });
-
-// }
+}
 
 
 //               ~~~~~~~ EVENT HANDLERS ~~~~~~
