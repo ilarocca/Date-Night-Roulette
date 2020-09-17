@@ -7,118 +7,39 @@ function formatQueryParams(params) {
     return queryItems.join('&'); 
 }
 
-//                ~~~~~~~~~GOOGLE API~~~~~~~~
+//            ~~~~~~~~ LOCATIONiQ API~~~~~
 
-// const googleApiKey = 'AIzaSyDM8WnT3OGrqhKlfIf9BVCadcu83FdAZgs';
+const locationApiKey = 'e6f1d751182452';
 
-// const googleBaseUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
-
-// const proxyurl = "https://cors-anywhere.herokuapp.com/";
-
-// function getFoodResult(foodAddress, foodType) {
-//     const params = {
-//         query: foodAddress + foodType,
-//         type: 'restaurant',
-//         key: googleApiKey,
-//         radius: 32500,
-//         opennow: 'true',
-
-//     };
-
-//     const queryString = formatQueryParams(params);
-//     const url = googleBaseUrl + '?' + queryString; 
-
-//     console.log(url)
-
-//     fetch(proxyurl + url)
-//     .then(response => {
-//       if (response.ok) {
-//         return response.json();
-//       }
-//       throw new Error(response.statusText);
-//     })
-//     .then(responseJson => getFoodDetails(responseJson))
-//     .catch(err => {
-//       $('#js-error-message').text(`Something went wrong: ${err.message}`);
-//     });
-// } 
-
-
-// function getFoodDetails(responseJson){
-//   const number = Math.floor(Math.random() * responseJson.results.length);
-//   console.log(number);
-//   const placeId = 'place_id=' + responseJson.results[number].place_id;
-//   const detailsBaseUrl = 'https://maps.googleapis.com/maps/api/place/details/json';
-//   const url = detailsBaseUrl + '?' + placeId + '&key=' + googleApiKey;
-
-//   fetch(proxyurl + url)
-//     .then(response => {
-//       if (response.ok) {
-//         return response.json();
-//       }
-//       throw new Error(response.statusText);
-//     })
-//     .then(responseJson => generateFoodResult(responseJson))
-//     .catch(err => {
-//       $('#js-error-message').text(`Something went wrong: ${err.message}`);
-//     });
-// } 
-
-
-// function generateFoodResult(responseJson) {
-//     console.log(responseJson)
-//     $('#food-results-list').empty();
-
-//     $('#food-results-list').append(
-//         `
-//         <li>
-//         <h3>${responseJson.result.name}</h3>
-//         <p>Rating: ${responseJson.result.rating}/5 (${responseJson.result[0].user_rating_total} reviewers)
-//         <p>Address: ${responseJson.result.formatted_address}</p>
-//         <p><a href="${responseJson.result.website} target="_blank">Restaurent Website</a></p>
-//         <p><a href="${responseJson.result.url}">Google Link</a></p>
-//         <img src="${responseJson.result.photos[0]}" alt="Google Image of Restaurant"> 
-//         </li>
-//         `
-//     )
-// }
-
-
-//              ~~~~~~~ POSITION STACK API ~~~~ 
-
-const positionBaseUrl = 'http://api.positionstack.com/v1/forward'
-
-const positionApiKey = 'fbd169c06412183df559cef58ec22027'
-
-const proxyurl = "https://cors-anywhere.herokuapp.com/";
+const locationBaseUrl = 'https://us1.locationiq.com/v1/search.php'
 
 function getCoordinates(foodAddress, foodType) {
-    const params = { 
-        access_key: positionApiKey, 
-        output: 'json',
-        query: foodAddress, 
-        country: 'US', 
-        limit: 1
-    };
+  const params = {
+    key: locationApiKey, 
+    q: foodAddress, 
+    countrycodes: 'us',
+    limit: 1,
+    format: 'json'
+  }
 
-    const queryString = formatQueryParams(params);
-    const url = positionBaseUrl + '?' + queryString; 
+  const queryString = formatQueryParams(params);
+  const url = locationBaseUrl + '?' + queryString; 
 
-    console.log(url);
+  console.log(url);
 
-    fetch(proxyurl + url)
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then(responseJson => getFoodResultTotal(responseJson, foodType))
-    .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
-    });
+  fetch(url)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response.statusText);
+  })
+  .then(responseJson => getFoodResultTotal(responseJson, foodType))
+  .catch(err => {
+    $('#js-error-message').text(`Something went wrong: ${err.message}`);
+  });
+
 }
-
 
 //               ~~~~~~ ZOMATO API ~~~~~ 
 
@@ -131,8 +52,8 @@ function getFoodResultTotal(responseJson, foodType) {
 
     const params = {
         apikey: zomatoApiKey, 
-        lat: responseJson.data[0].latitude, 
-        lon: responseJson.data[0].longitude,
+        lat: responseJson[0].lat,
+        lon: responseJson[0].lon,
         q: foodType,
         count: 1 
     } 
@@ -166,7 +87,6 @@ function getFoodResult(url, responseJson) {
         
         console.log(offsetParam)
     const offsetString = 'start=' + offsetParam
-        console.log(offsetString);
     const newUrl = url + '&' + offsetString
         console.log(newUrl);
 
@@ -202,6 +122,7 @@ if (responseJson.results_shown === 0) {
         <p>Average Cost For Two: $${responseJson.restaurants[0].restaurant.average_cost_for_two}</p>
         <p>Address: ${responseJson.restaurants[0].restaurant.location.address}</p>
         <p><a href="${responseJson.restaurants[0].restaurant.url}" target="_blank">More Info</a></p>
+        <p><a href="${responseJson.restaurants[0].restaurant.menu_url}" target="_blank">Menu</a></p>
         </li>
         `
     )
@@ -281,7 +202,11 @@ function generateWatchResult(responseJson) {
     console.log(responseJson)
     $('#watch-results-list').empty();
 
-    console.log(responseJson.results[0].title);
+    const title = responseJson.results[0].title;
+    console.log(title);
+
+    let score = getWatchResultScore(title);
+    console.log(score);
 
     $('#watch-results-list').append(
         `
@@ -289,10 +214,11 @@ function generateWatchResult(responseJson) {
         <h3>${responseJson.results[0].title}</h3>
         <p>${responseJson.results[0].synopsis}</p>
         <img id="movie-image" src="${responseJson.results[0].img}">
+        <p>imDb Rating: </p>
         </li>
         `
     )
-    console.log(getWatchResultScore(responseJson.results[0].title));
+    
 }
 
 //              ~~~~~~~~ OMDb API ~~~~~~~~
@@ -317,11 +243,10 @@ function getWatchResultScore(title) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => console.log(responseJson))
+    .then(responseJson => {console.log(responseJson.imdbRating); return responseJson.imdbRating})
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-
 }
 
 
