@@ -32,4 +32,13 @@
         <li>CSS</li>
     </ul>
 </div>
+
+<div>
+    <h3>APIs Used</h3>
+    <ul>
+        <li>LocationIQ</li>
+        <li>Zomato</li>
+        <li>unogs</li>
+    </ul>
+</div>
 </body>
