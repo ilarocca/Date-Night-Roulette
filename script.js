@@ -104,6 +104,7 @@ function getFoodResult(url, responseJson) {
 function generateFoodResult(responseJson) {
     $('#food-results').empty();
 
+    // if the cost returned from the API is not availble or 0, it will show as not available
     let cost = responseJson.restaurants[0].restaurant.average_cost_for_two
     if (cost === 0) {
     cost = '<p><b>Average Cost For Two:</b>  N/A</p>';
