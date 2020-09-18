@@ -204,7 +204,7 @@ function generateWatchResult(responseJson) {
         <h3>${responseJson.results[0].title}</h3>
      <div class="watch-result-info">   
         <div class="watch-img">
-            <img id="movie-image" src="${responseJson.results[0].img}">
+            <img id="movie-image" src="${responseJson.results[0].img}" alt="randomly selected movie poster">
         </div>
         <div class="watch-bio">
             <p><b>Year Realesed:</b> ${responseJson.results[0].year}</p>
