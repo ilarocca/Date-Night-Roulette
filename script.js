@@ -49,8 +49,6 @@ const zomatoApiKey = '5408459bae48d90e9cd677c0fa26abbb'
 
 // takes coordinates and makes first zomato call to get total results
 function getFoodResultTotal(responseJson, foodType) {
-    console.log(responseJson);
-
     const params = {
         apikey: zomatoApiKey, 
         lat: responseJson[0].lat,
@@ -106,6 +104,13 @@ function getFoodResult(url, responseJson) {
 function generateFoodResult(responseJson) {
     $('#food-results').empty();
 
+    let cost = responseJson.restaurants[0].restaurant.average_cost_for_two
+    if (cost === 0) {
+    cost = '<p><b>Average Cost For Two:</b>  N/A</p>';
+    } else {
+    cost = `<p><b>Average Cost For Two:</b> $${cost}</p>`;
+    };
+
 if (responseJson.results_shown === 0) {
       $('#food-results').append(
         `
@@ -119,7 +124,7 @@ if (responseJson.results_shown === 0) {
         <h3>${responseJson.restaurants[0].restaurant.name}</h3>
         <p><a href="${responseJson.restaurants[0].restaurant.menu_url}" target="_blank">Menu</a></p>
         <p><a href="${responseJson.restaurants[0].restaurant.url}" target="_blank">More Info</a></p>
-        <p><b>Average Cost For Two:</b> $${responseJson.restaurants[0].restaurant.average_cost_for_two}</p>
+        ${cost}
         <p><b>Address:</b> ${responseJson.restaurants[0].restaurant.location.address}</p>
         `
     )
@@ -192,6 +197,7 @@ function getWatchResult(url, responseJson) {
 function generateWatchResult(responseJson) {
     $('#watch-results').empty();
 
+// prevents 'null/10' being shown as a IMDb rating and N/A instead
     let rating = responseJson.results[0].imdbrating
     if (rating === null) {
     rating = '<p><b>IMDb Rating:</b>  N/A</p>';
