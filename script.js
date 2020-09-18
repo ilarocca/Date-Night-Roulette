@@ -22,7 +22,7 @@ function getCoordinates(foodAddress, foodType) {
     countrycodes: 'us',
     limit: 1,
     format: 'json'
-  }
+  };
 
   const queryString = formatQueryParams(params);
   const url = locationBaseUrl + '?' + queryString; 
@@ -39,7 +39,7 @@ function getCoordinates(foodAddress, foodType) {
     $('#js-error-message').text(`Something went wrong: ${err.message}`);
   });
 
-}
+};
 
 //               ~~~~~~ ZOMATO API ~~~~~ 
 
@@ -57,7 +57,7 @@ function getFoodResultTotal(responseJson, foodType) {
         lon: responseJson[0].lon,
         q: foodType,
         count: 1 
-    } 
+    } ;
 
     const queryString = formatQueryParams(params);
     const url = zomatoBaseUrl + '?' + queryString; 
@@ -73,7 +73,7 @@ function getFoodResultTotal(responseJson, foodType) {
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-}
+};
 
 // passes previous url/responseJson and makes second call with randomized start paramater to get 1 result
 function getFoodResult(url, responseJson) {
@@ -84,7 +84,7 @@ function getFoodResult(url, responseJson) {
      offsetParam = Math.floor(Math.random() * 99);
   } else {
      offsetParam = Math.floor(Math.random() * responseJson.results_found)
-  }
+  };
         
     const offsetString = 'start=' + offsetParam
     const newUrl = url + '&' + offsetString
@@ -100,7 +100,7 @@ function getFoodResult(url, responseJson) {
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-}
+};
 
 // once randomized result is obtained, append the html wtih appropriate API info
 function generateFoodResult(responseJson) {
@@ -124,7 +124,7 @@ if (responseJson.results_shown === 0) {
         `
     )
   }
-}
+};
 
 //              ~~~~~~~UNOGS API~~~~~~~
 
@@ -158,7 +158,7 @@ function getWatchResultTotal(genreType) {
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-}
+};
 
 // make second call with, but randomize offset which picks a result
 function getWatchResult(url, responseJson) {
@@ -186,7 +186,7 @@ function getWatchResult(url, responseJson) {
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-}
+};
 
 // pass through randomized result and append html with API info  
 function generateWatchResult(responseJson) {
@@ -196,8 +196,8 @@ function generateWatchResult(responseJson) {
     if (rating === null) {
     rating = '<p><b>IMDb Rating:</b>  N/A</p>';
     } else {
-    rating = `<p><b>IMDb Rating:</b>  ${rating}/10 </p>`
-    }
+    rating = `<p><b>IMDb Rating:</b>  ${rating}/10 </p>`;
+    };
 
     $('#watch-results').append(
         `
@@ -214,7 +214,7 @@ function generateWatchResult(responseJson) {
       </div>
         `
     )
-}
+};
 
 //               ~~~~~~~ EVENT HANDLERS ~~~~~~
 
@@ -225,7 +225,7 @@ function submitFoodForm() {
         const foodType = $('#js-food-type').val();
         getCoordinates(foodAddress, foodType);
     });
-}
+};
 
 function submitWatchForm() {
     $('#js-watch-form').submit(event => {
@@ -233,7 +233,7 @@ function submitWatchForm() {
         const genreType = $('#js-genre-type').val();
         getWatchResultTotal(genreType);
     });
-}
+};
 
 $(submitFoodForm);
 $(submitWatchForm);
