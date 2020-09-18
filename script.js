@@ -1,5 +1,6 @@
 'use strict'
 
+//format function for all query paramaters 
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -9,6 +10,7 @@ function formatQueryParams(params) {
 
 //            ~~~~~~~~ LOCATIONiQ API~~~~~
 
+// Obtain coordinates to pass to through Zomato. 'foodType' passes through untouched
 const locationApiKey = 'e6f1d751182452';
 
 const locationBaseUrl = 'https://us1.locationiq.com/v1/search.php'
@@ -24,8 +26,6 @@ function getCoordinates(foodAddress, foodType) {
 
   const queryString = formatQueryParams(params);
   const url = locationBaseUrl + '?' + queryString; 
-
-  console.log(url);
 
   fetch(url)
   .then(response => {
@@ -47,6 +47,7 @@ const zomatoBaseUrl = 'https://developers.zomato.com/api/v2.1/search'
 
 const zomatoApiKey = '5408459bae48d90e9cd677c0fa26abbb'
 
+// takes coordinates and makes first zomato call to get total results
 function getFoodResultTotal(responseJson, foodType) {
     console.log(responseJson);
 
@@ -61,8 +62,6 @@ function getFoodResultTotal(responseJson, foodType) {
     const queryString = formatQueryParams(params);
     const url = zomatoBaseUrl + '?' + queryString; 
 
-    console.log(url);
-
     fetch(url)
     .then(response => {
       if (response.ok) {
@@ -76,19 +75,19 @@ function getFoodResultTotal(responseJson, foodType) {
     });
 }
 
+// passes previous url/responseJson and makes second call with randomized start paramater to get 1 result
 function getFoodResult(url, responseJson) {
     let offsetParam = 0
-        console.log(responseJson.results_found);
+    // API won't show a result higher than 100, 
+    // this work around ensures randomization over or under 100 (if total is 1050, it will randomly start under first 100)
   if (responseJson.results_found > 100) {
      offsetParam = Math.floor(Math.random() * 99);
   } else {
      offsetParam = Math.floor(Math.random() * responseJson.results_found)
   }
         
-        console.log(offsetParam)
     const offsetString = 'start=' + offsetParam
     const newUrl = url + '&' + offsetString
-        console.log(newUrl);
 
     fetch(newUrl)
     .then(response => {
@@ -103,8 +102,8 @@ function getFoodResult(url, responseJson) {
     });
 }
 
+// once randomized result is obtained, append the html wtih appropriate API info
 function generateFoodResult(responseJson) {
-    console.log(responseJson)
     $('#food-results').empty();
 
 if (responseJson.results_shown === 0) {
@@ -131,8 +130,8 @@ if (responseJson.results_shown === 0) {
 
 const netflixBaseUrl = 'https://unogsng.p.rapidapi.com/search' 
 
+// make first call to API and get total number of movies (same process as above)
 function getWatchResultTotal(genreType) {
-
     const params = {
         genrelist: genreType,
         countrylist: "78",
@@ -161,19 +160,14 @@ function getWatchResultTotal(genreType) {
     });
 }
 
+// make second call with, but randomize offset which picks a result
 function getWatchResult(url, responseJson) {
-
-    console.log(responseJson.total);
     //        ~~~ Get random number based on total 
     const offsetParam = Math.floor(Math.random() * responseJson.total)
-
-    console.log(offsetParam); 
 
     const offsetString = 'offset=' + offsetParam
 
     const newUrl = url + '&' + offsetString; 
-
-    // console.log(newUrl)
 
     fetch(newUrl, {
         "method": "GET",
@@ -194,55 +188,33 @@ function getWatchResult(url, responseJson) {
     });
 }
 
+// pass through randomized result and append html with API info  
 function generateWatchResult(responseJson) {
-
-    console.log(responseJson)
     $('#watch-results').empty();
 
-    const title = responseJson.results[0].title;
-    console.log(title);
-
-    let score = getWatchResultScore(title);
-    console.log(score);
+    let rating = responseJson.results[0].imdbrating
+    if (rating === null) {
+    rating = '<p><b>IMDb Rating:</b>  N/A</p>';
+    } else {
+    rating = `<p><b>IMDb Rating:</b>  ${rating}/10 </p>`
+    }
 
     $('#watch-results').append(
         `
         <h3>${responseJson.results[0].title}</h3>
-        <p>${responseJson.results[0].synopsis}</p>
-        <img id="movie-image" src="${responseJson.results[0].img}">
-        <p><b>IMDb Rating:</b> </p>
+     <div class="watch-result-info">   
+        <div class="watch-img">
+            <img id="movie-image" src="${responseJson.results[0].img}">
+        </div>
+        <div class="watch-bio">
+            <p><b>Year Realesed:</b> ${responseJson.results[0].year}</p>
+            ${rating}
+            <p style="font-weight:500;">${responseJson.results[0].synopsis}</p>
+        <div>
+      </div>
         `
     )
 }
-
-//              ~~~~~~~~ OMDb API ~~~~~~~~
-
-function getWatchResultScore(title) {
-    const resultBaseUrl = 'https://www.omdbapi.com/'
-    const omdbApiKey = '85d8f04b'
-    const params = {
-        t: title,
-        apikey: omdbApiKey
-    }
-
-    const queryString = formatQueryParams(params);
-    const url = resultBaseUrl + '?' + queryString; 
-
-    console.log(url);
-
-    fetch(url)
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then(responseJson => {console.log(responseJson.imdbRating); return responseJson.imdbRating})
-    .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
-    });
-}
-
 
 //               ~~~~~~~ EVENT HANDLERS ~~~~~~
 
