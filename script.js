@@ -105,25 +105,23 @@ function getFoodResult(url, responseJson) {
 
 function generateFoodResult(responseJson) {
     console.log(responseJson)
-    $('#food-results-list').empty();
+    $('#food-results').empty();
 
 if (responseJson.results_shown === 0) {
-      $('#food-results-list').append(
+      $('#food-results').append(
         `
         <li>
         <p>Sorry, no result was found. Try again!</p>
         </li>
         `)
 } else {
-    $('#food-results-list').append(
+    $('#food-results').append(
         `
-        <li>
         <h3>${responseJson.restaurants[0].restaurant.name}</h3>
-        <p>Average Cost For Two: $${responseJson.restaurants[0].restaurant.average_cost_for_two}</p>
-        <p>Address: ${responseJson.restaurants[0].restaurant.location.address}</p>
-        <p><a href="${responseJson.restaurants[0].restaurant.url}" target="_blank">More Info</a></p>
         <p><a href="${responseJson.restaurants[0].restaurant.menu_url}" target="_blank">Menu</a></p>
-        </li>
+        <p><a href="${responseJson.restaurants[0].restaurant.url}" target="_blank">More Info</a></p>
+        <p><b>Average Cost For Two:</b> $${responseJson.restaurants[0].restaurant.average_cost_for_two}</p>
+        <p><b>Address:</b> ${responseJson.restaurants[0].restaurant.location.address}</p>
         `
     )
   }
@@ -137,7 +135,6 @@ function getWatchResultTotal(genreType) {
 
     const params = {
         genrelist: genreType,
-        // type: watchType,
         countrylist: "78",
         limit: 1, 
     };
@@ -200,7 +197,7 @@ function getWatchResult(url, responseJson) {
 function generateWatchResult(responseJson) {
 
     console.log(responseJson)
-    $('#watch-results-list').empty();
+    $('#watch-results').empty();
 
     const title = responseJson.results[0].title;
     console.log(title);
@@ -208,17 +205,14 @@ function generateWatchResult(responseJson) {
     let score = getWatchResultScore(title);
     console.log(score);
 
-    $('#watch-results-list').append(
+    $('#watch-results').append(
         `
-        <li>
         <h3>${responseJson.results[0].title}</h3>
         <p>${responseJson.results[0].synopsis}</p>
         <img id="movie-image" src="${responseJson.results[0].img}">
-        <p>imDb Rating: </p>
-        </li>
+        <p><b>IMDb Rating:</b> </p>
         `
     )
-    
 }
 
 //              ~~~~~~~~ OMDb API ~~~~~~~~
@@ -264,21 +258,10 @@ function submitFoodForm() {
 function submitWatchForm() {
     $('#js-watch-form').submit(event => {
         event.preventDefault(); 
-        // const watchType = $('#js-watch-type').val(); 
         const genreType = $('#js-genre-type').val();
         getWatchResultTotal(genreType);
     });
 }
 
-// function submitBothForms() {
-//   $('#js-both-form').submit(event => {
-//     console.log('hi');
-//     event.preventDefault();
-//     submitFoodForm();
-//     submitWatchForm();
-//   })
-// }
-
 $(submitFoodForm);
 $(submitWatchForm);
-// $(submitBothForms);
