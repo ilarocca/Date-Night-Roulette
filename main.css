@@ -76,7 +76,7 @@ input {
 }
 
 select {
-    width: 75;
+    width: 75px;
     padding: 8px 18px;
     margin: 10px 5px;
     box-sizing: border-box;
@@ -88,7 +88,7 @@ select {
 .location-group, .food-group {
     text-align: center;
     clear: both;
-    float:center;
+    float: center;
     margin-right:15px;
 }
 
@@ -103,7 +103,7 @@ select {
 }
 
 #food-results, #watch-results {
-    padding: 10x;
+    padding: 10px;
     max-width: 400px
 }
 
