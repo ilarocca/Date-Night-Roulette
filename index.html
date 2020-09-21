@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Date Night Roulette</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="main.css">
     <link rel="icon" type="image/png" href="imgs/takeout.png"/>
 
@@ -14,64 +13,69 @@
 <body>
     <header>
         <h1>Date Night Roulette</h1>
-        <p><i>Let your date night choose you</i></p>
+        <p>Let your date night choose you</p>
     </header>
- <div class="container">
+    <main class="container">
 
-    <div class="food-container">
-        <form id="js-food-form">
-            <div class="location-group">
-                <label for="address"><b>Enter Location</b></label>
-                <input type="text" name="address" id="js-address" placeholder="New York, NY, e.g." required>
-            </div>  
-            <br>
-            <div class="food-group">
-                <label for="food-type"><b>Food Type</b></label>
-                <input type="text" name="food-type" id="js-food-type" placeholder="pizza, american, e.g.">
-            </div>
-            <br>
-            <button type="submit" id="js-food-submit">Find Food</button>
-        </form>
+        <div class="food-container">
+            <form id="js-food-form">
+                <div class="location-group">
+                    <label for="js-address">Enter Location</label>
+                    <input type="text" name="address" id="js-address" placeholder="New York, NY, e.g." required>
+                </div>  
+                <br>
+                <div class="food-group">
+                    <label for="js-food-type">Food Type</label>
+                    <input type="text" name="food-type" id="js-food-type" placeholder="pizza, american, e.g.">
+                </div>
+                <br>
+                <button type="submit" id="js-food-submit">Find Food</button>
+            </form>
 
-        <section id="food-results">
-        </section>
-    </div>
+            <section id="food-results">
+                <div id="error-message">
+                    <p id="js-error-message" class="error-message"></p>
+                </div>
+            </section>
+            
+            
+        </div>
 
-    <div class="watch-container">
-        <form id="js-watch-form">
-            <br>
-            <label for="genre-type"><b>Choose a Genre:</b></label>
-            <select name="genre-type" id="js-genre-type">
-              <option value="">ANY</option>
-              <option value="1365">Action & Adventure</option>
-              <option value="7424">Anime</option>
-              <option value="783">Family</option>
-              <option value="6548">Comedies</option>
-              <option value="31574">Classics</option>
-              <option value="7627">Cult</option>
-              <option value="6839">Docs</option>
-              <option value="5763">Dramas</option>
-              <option value="31851">Gangster</option>
-              <option value="8711">Horror</option>
-              <option value="7077">Indie</option>
-              <option value="1701">Music</option>
-              <option value="8883">Romantic</option>
-              <option value="1492">Sci-Fi</option>
-              <option value="4370">Sports</option>
-              <option value="11559">Stand-Up</option>
-              <option value="8933">Thrillers</option>
-              <option value="83">TV Shows</option>
-              <option value="60951">Teen TV Shows</option>
-            </select>
-            <br>
-            <button type="submit" id="js-watch-submit">Find Something on Netflix</button>
-        </form>
+        <div class="watch-container">
+            <form id="js-watch-form">
+                <br>
+                <label for="js-genre-type">Choose a Genre:</label>
+                <select name="genre-type" id="js-genre-type">
+                <option value="">ANY</option>
+                <option value="1365">Action & Adventure</option>
+                <option value="7424">Anime</option>
+                <option value="783">Family</option>
+                <option value="6548">Comedies</option>
+                <option value="31574">Classics</option>
+                <option value="7627">Cult</option>
+                <option value="6839">Docs</option>
+                <option value="5763">Dramas</option>
+                <option value="31851">Gangster</option>
+                <option value="8711">Horror</option>
+                <option value="7077">Indie</option>
+                <option value="1701">Music</option>
+                <option value="8883">Romantic</option>
+                <option value="1492">Sci-Fi</option>
+                <option value="4370">Sports</option>
+                <option value="11559">Stand-Up</option>
+                <option value="8933">Thrillers</option>
+                <option value="83">TV Shows</option>
+                <option value="60951">Teen TV Shows</option>
+                </select>
+                <br>
+                <button type="submit" id="js-watch-submit">Find Something on Netflix</button>
+            </form>
 
-        <section id="watch-results">
-        </section>
-    </div>
+            <section id="watch-results">
+            </section>
+        </div>
 
- </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="script.js"></script>

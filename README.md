@@ -1,44 +1,28 @@
-<head>
-    <h1><b>Date Night Roulette</b><h1>
-    <p>A randomization application that takes the stress of picking dinner and a movie off the user.
-</head>
+# Date Night Roulette 
 
-<br>
-<body>
-    <div>
-        <h3>Demo</h3>
-        <p><a href="https://ilarocca.github.io/Date-Night-Roulette/ " target="_blank">Live Demo</p>
-    </div>
-    <br>
+> A randomization application that takes the stress of picking dinner and a movie off the user.
 
-   <div>
-      <h3>Screenshots</h3>
-      <img src="imgs/homepage.png" alt="homepage screenshot">
-      <img src="imgs/results.png" alt="results screenshot">
-    </div>
+### Demo
+ 
+[Live Demo] (https://ilarocca.github.io/Date-Night-Roulette/ )
 
-<div>
-    <h3>About</h3>
-    <p>Lets you randomly choose a restaurant based on your location and food type keyword. Lets you randomly select a netflix result with the option of including a major genre choice. *Only works for United States at this time</p>
-</div>
+### Screenshots
 
-<div>
-    <h3>Built With</h3>
-    <ul>
-        <li>JavaScript</li>
-        <li>jQuery</li>
-        <li>JSON</li>
-        <li>HTML</li>
-        <li>CSS</li>
-    </ul>
-</div>
+![homepage screenshot] (imgs/homepage.png)
+![results screenshot] (imgs/results.png)
 
-<div>
-    <h3>APIs Used</h3>
-    <ul>
-        <li>LocationIQ</li>
-        <li>Zomato</li>
-        <li>unogs</li>
-    </ul>
-</div>
-</body>
+### About
+
+> Lets you randomly choose a restaurant based on your location and food type keyword. Lets you randomly select a netflix result with the option of including a major genre choice. *Only works for United States at this time 
+
+### Built With
+- JavaScript
+- jQuery
+- JSON
+- HTML
+- CSS 
+
+### APIs Used
+- LocationIQ
+- Zomato
+- unogs 
