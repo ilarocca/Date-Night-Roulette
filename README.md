@@ -4,12 +4,13 @@
 
 ### Demo
  
-[Live Demo] (https://ilarocca.github.io/Date-Night-Roulette/ )
+ <p><a href="https://ilarocca.github.io/Date-Night-Roulette/" target="_blank">Live Demo</a></p>
 
 ### Screenshots
 
-![homepage screenshot] (imgs/homepage.png)
-![results screenshot] (imgs/results.png)
+<img src="imgs/homepage.png" alt="homepage-screenshot">
+
+<img src="imgs/results.png" alt="results-screenshot">
 
 ### About
 
