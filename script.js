@@ -31,14 +31,15 @@ function getCoordinates(foodAddress, foodType) {
         .then(response => {
             if (response.ok) {
                 return response.json();
+            } else if (response.status === 404) {
+                throw new Error('Location Not Found');
+            } else {
+                throw new Error('Please Try Again Later')
             }
-            console.log(response);
-            throw new Error(response.statusText);
         })
         .then(responseJson => getFoodResultTotal(responseJson, foodType))
         .catch(err => {
-          // console.log(error);
-            $('#js-error-message').text(`Something went wrong ${err.message}`);
+                $('#js-error-message').text(`Something went wrong`);
         })
 }
 
